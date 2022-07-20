@@ -3,11 +3,6 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Restaurant = require('../../models/Restaurant');
 
-////////////////////////////////////####/////////////////////////////////
-//                  NEED TO ADD AN CHEF TO RESTAURANT
-////////////////////////////////////####/////////////////////////////////
-
-
 // @route   POST api/restaurants
 // @desc    Create a restaurant
 // @access   Public
@@ -21,11 +16,12 @@ router.post('/', [
     if (!errors.isEmpty()) {
         return res.status(400).json({ msg: errors.array() });
     }
-    const { name, image, openhour, opendate, rating, active } = req.body;
+    const { name, image, chef, openhour, opendate, rating, active } = req.body;
     try {
         const newRestaurant = new Restaurant({
             name,
             image,
+            chef,
             openhour,
             opendate,
             rating,
@@ -106,13 +102,14 @@ router.put("/:id", [
         return res.status(400).json({ msg: errors.array() });
     }
     try {
-        const { name, image, openhour, opendate, rating, active } = req.body;
+        const { name, image, chef, openhour, opendate, rating, active } = req.body;
         let restaurant = await Restaurant.findById(req.params.id);
         if (!restaurant) {
             return res.status(404).json({ msg: "Restaurant Not Found" });
         }
         restaurant.name = name;
         restaurant.image = image;
+        restaurant.chef = chef;
         restaurant.openhour = openhour;
         restaurant.opendate = opendate;
         restaurant.rating = rating;
