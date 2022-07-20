@@ -8,7 +8,10 @@ const RestaurantSchema = new mongoose.Schema({
     image: { 
         type: String
     },
-    //chef,
+    chef: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'chef'
+    },
     openhour: {
         type: Number
     },
