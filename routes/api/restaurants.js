@@ -3,6 +3,10 @@ const router = express.Router();
 const { check, validationResult } = require('express-validator');
 const Restaurant = require('../../models/Restaurant');
 
+////////////////////////////////////####/////////////////////////////////
+//                  NEED TO ADD AN CHEF TO RESTAURANT
+////////////////////////////////////####/////////////////////////////////
+
 
 // @route   POST api/restaurants
 // @desc    Create a restaurant
