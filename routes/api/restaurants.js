@@ -40,7 +40,22 @@ router.post('/', [
 // @access   Public
 router.get('/', async (req, res) => {
     try {
-        const restaurants = await Restaurant.find();
+        const restaurants = await Restaurant.find({active: true});
+        res.json(restaurants);
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// @route   Get api/restaurants/top
+// @desc    Get 3 top restaurants
+// @access   Public
+router.get('/top', async (req, res) => {
+    try {
+        const restaurants = await Restaurant.find({active: true}).sort({ rating: -1}).limit(3).populate({
+            path: 'chef', model: 'chef', select: ['name']
+        });
         res.json(restaurants);
     } catch (err) {
         console.error(err.message);
