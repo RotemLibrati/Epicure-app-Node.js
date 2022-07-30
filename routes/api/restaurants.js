@@ -40,7 +40,9 @@ router.post('/', [
 // @access   Public
 router.get('/', async (req, res) => {
     try {
-        const restaurants = await Restaurant.find({active: true});
+        const restaurants = await Restaurant.find({active: true}).populate({ 
+            path: 'chef', model: 'chef', select: ['_id']
+        });
         res.json(restaurants);
     } catch (err) {
         console.error(err.message);
@@ -69,6 +71,26 @@ router.get('/top', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const restaurant = await Restaurant.findById(req.params.id);
+        if (!restaurant) {
+            return res.status(404).json({ msg: "Restaurant Not Found" });
+        }
+        res.json(restaurant);
+
+    } catch (err) {
+        console.error(err.message);
+        if (err.kind === 'ObjectId') { //type of object id as req.param but not found
+            return res.status(404).json({ msg: 'Restaurant not found ' });
+        }
+        res.status(500).send("Server Error");
+    }
+
+});
+// @route   Get api/restaurants/chef/:id
+// @desc    Get restaurant by chef id
+// @access   Public
+router.get('/chef/:id', async (req, res) => {
+    try {
+        const restaurant = await Restaurant.find({ chef: req.params.id});
         if (!restaurant) {
             return res.status(404).json({ msg: "Restaurant Not Found" });
         }
