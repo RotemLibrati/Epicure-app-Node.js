@@ -41,7 +41,7 @@ router.post('/', [
 router.get('/', async (req, res) => {
     try {
         const restaurants = await Restaurant.find({active: true}).populate({ 
-            path: 'chef', model: 'chef', select: ['_id']
+            path: 'chef', model: 'chef', select: ['_id', 'name']
         });
         res.json(restaurants);
     } catch (err) {
@@ -70,7 +70,9 @@ router.get('/top', async (req, res) => {
 // @access   Public
 router.get('/:id', async (req, res) => {
     try {
-        const restaurant = await Restaurant.findById(req.params.id);
+        const restaurant = await Restaurant.findById(req.params.id).populate({
+            path: 'chef', model: 'chef', select: ['name']
+        });
         if (!restaurant) {
             return res.status(404).json({ msg: "Restaurant Not Found" });
         }
