@@ -15,13 +15,14 @@ router.post('/', [
     if (!errors.isEmpty()) {
         return res.status(400).json({ msg: errors.array() });
     }
-    const { name, image, description, active } = req.body;
+    const { name, image, description, active, seniority } = req.body;
     try {
         const newChef = new Chef({
             name,
             image,
             description,
-            active
+            active,
+            seniority
         });
         const chef = await newChef.save();
         res.json(chef);
@@ -93,7 +94,7 @@ router.put("/:id", [
         return res.status(400).json({ msg: errors.array() });
     }
     try {
-        const { name, image, description, active } = req.body;
+        const { name, image, description, active, seniority } = req.body;
         let chef = await Chef.findById(req.params.id);
         if (!chef) {
             return res.status(404).json({ msg: "Chef Not Found" });
@@ -102,6 +103,7 @@ router.put("/:id", [
         chef.image = image;
         chef.description = description;
         chef.active = active;
+        chef.seniority = seniority;
         chef.save();
         res.json(chef);
     } catch (err) {

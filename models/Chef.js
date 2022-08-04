@@ -17,6 +17,11 @@ const ChefSchema = new mongoose.Schema({
     active: {
         type: Boolean,
         required: true
+    },
+    seniority: {
+        type: Number,
+        required: true,
+        default: 1
     }
 });
 
