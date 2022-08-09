@@ -10,6 +10,10 @@ const OrderSchema = new mongoose.Schema({
         type: Boolean,
         required: false,
         default: false
+    },
+    date: {
+        type: Date,
+        default: Date.now
     }
 });
 
