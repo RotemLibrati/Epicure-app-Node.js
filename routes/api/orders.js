@@ -25,11 +25,26 @@ router.post('/', async (req, res) => {
 // @access   Public
 router.get('/', async (req, res) => {
     try {
-        const orders = await Order.find({payment: false}).populate({
-            path: 'dish', model: 'dish', select: ['name']
+        const orders = await Order.find().populate({
+            path: 'dish', populate: { path: 'restaurant', model: 'restaurant', select: ['name'] }, select: ['name', 'price']
         });
         res.json(orders);
-    } catch(err){
+    } catch (err) {
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
+// @route   GET api/orders/payment
+// @desc    Get All Orders
+// @access   Public
+router.get('/payment', async (req, res) => {
+    try {
+        const orders = await Order.find({ payment: false }).populate({
+            path: 'dish', populate: { path: 'restaurant', model: 'restaurant', select: ['name'] }, select: ['name', 'image', 'price']
+        });
+        res.json(orders);
+    } catch (err) {
         console.error(err.message);
         res.status(500).send("Server Error");
     }
