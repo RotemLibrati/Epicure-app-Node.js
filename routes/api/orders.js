@@ -50,5 +50,22 @@ router.get('/payment', async (req, res) => {
     }
 });
 
+// @route   PUT api/orders/payment
+// @desc    Put All Orders payment to true
+// @access   Public
+router.put('/payment', async (req, res) => {
+    try {
+        const orders = await Order.find({ payment: false });
+        orders.map(order => {
+            order.payment = true;
+            order.save();
+        });
+        res.json(orders);
+    } catch(err){
+        console.error(err.message);
+        res.status(500).send("Server Error");
+    }
+});
+
 
 module.exports = router;
