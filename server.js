@@ -12,6 +12,7 @@ app.use('/api/restaurants', require('./routes/api/restaurants'));
 app.use('/api/chefs', require('./routes/api/chefs'));
 app.use('/api/dishes', require('./routes/api/dishes'));
 app.use('/api/orders', require('./routes/api/orders'));
+app.use('/api/orders-history', require('./routes/api/orders_history'));
 
 const PORT = process.env.POST || 5000;
 
