@@ -14,7 +14,6 @@ router.post('/', async (req, res) => {
             restaurant
         });
         const order = await newOrder.save();
-        console.log("order", order);
         res.json(order);
     } catch (err) {
         console.error(err.message);
